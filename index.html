@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTA VI</title>
+
+    <!-- FONTES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600&family=Anton&family=Bebas+Neue&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" jr href="img/icon.jpg"
+
+</head>
+
+<body>
+
+    <p class="nome">Lucia</p>
+    <img class="personagem" src="img/lucia.png" alt="Lucia">
+
+    <div class="textos">
+        <p class="etiqueta">Selecione o seu Personagem</p>
+        <h1>Não é só <br>um Jogo</h1>
+        <p class="texto-apoio">Escolha uma lenda de Dev City. Ou escolha uma foto e vire uma!</p>
+    </div>  
+
+    <p class="nota">).
+    <p class="aviso" role="status"></p>
+
+    <!-- MENU COM AS BOLINHAS
+         - data-nome = texto do balão ao passar o mouse
+         - this      = click pro java -->
+    <div class="menu">
+
+        <!-- ativo já marca a Lucia como selecionada assim que abrir -->
+        <button class="avatar ativo" data-nome="Lucia"
+            onclick="escolherPersonagem('Lucia', 'img/lucia.png', '#ff3cac', this)">
+            <img src="img/lucia.png" alt="Escolher Lucia">
+        </button>
+
+        <button class="avatar" data-nome="Jason"
+            onclick="escolherPersonagem('Jason', 'img/jason.png', '#00b2c9', this)">
+            <img src="img/jason.png" alt="Escolher Jason">
+        </button>
+
+        <button class="avatar" data-nome="CJ" onclick="escolherPersonagem('CJ', 'img/cj.png', '#7ed37e', this)">
+            <img src="img/cj.png" alt="Escolher CJ">
+        </button>
+
+        <!-- BOTÃO DA SELFIE
+            label funciona como botão: clicar nele abre o seletor de arquivo
+             O input escondido com a classe .escondido (e não com hidden)
+             pra ainda poder ser alcançado pelo teclado -->
+        <label class="voce" data-nome="Sua selfie">📸
+            <input class="escondido" type="file" accept="image/*" onchange="lerFoto(this)">
+        </label>
+    </div>
+
+
+
+    <!-- AVISO DE ERRO
+         Fica invisível até o JavaScript mostrar 
+          se a IA falhar role="status" faz leitores de tela anunciarem a mensagem -->
+    <p class="aviso" role="status"></p>
+
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>
+

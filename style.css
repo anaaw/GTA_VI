@@ -1,0 +1,337 @@
+* {
+    margin: 0;
+    box-sizing: border-box; 
+    font-family: var(--fonte-texto);
+}
+
+   :root {
+    --cor: #ff3cac;               
+    --fonte-nome: "Bangers", system-ui;                 
+    --fonte-titulo: "Bangers", system-ui; 
+    --fonte-texto: "Inter", system-ui, sans-serif;     
+    --tamanho-bolinha: 60px;
+}
+
+
+html,
+body {
+    height: 100%; 
+}
+
+/* IMAGEM DE FUNDO */
+body { 
+    position: relative;
+    overflow: hidden; 
+    background-image: url("img/background2.jpg");
+    background-size: cover;      
+    background-position: center; 
+}
+
+/* CAMADA ESCURA POR CIMA DO FUNDO*/
+body::before {
+    content:"";
+    position: absolute;
+    inset: 0; 
+    background:
+        linear-gradient(to right, rgba(0, 0, 0, 0.65), transparent 55%),
+        linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 35%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Z-INDEX = ordem das camadas (maior fica na frente)
+   0 fundo escuro | 1 nome | 2 personagem | 3 textos e menu | 999 cursor */
+
+
+/* NOME PERSONAGEM */
+.nome {
+    position: absolute;
+    top: -5vh;                          
+    left: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 1;
+    font-family: var(--fonte-nome);
+    /* clamp(mínimo, ideal, máximo): cresce com a largura da tela,
+       mas nunca fica menor que 120px nem maior que 360px */
+    font-size: clamp(120px, 26vw, 360px);
+    color: var(--cor);
+    text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    z-index: 1;
+    animation: nome-entra 0.5s ease;
+}
+
+.personagem {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;       
+    height: 80vh;       
+    width:auto;
+    max-height: 42vw;
+    object-fit: contain;
+    object-position: bottom;
+    z-index: 2;
+    animation: personagem-entra 0.45s ease;
+}
+
+.textos {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    z-index: 3;
+    max-width:28vw;
+}
+
+/*SELECIONE O SEU PERSONAGEM*/
+.etiqueta {
+    font-family: "Bebas Neue", system-ui;
+    font-style: normal;
+    font-size: clamp(28px, 2.8vw, 42px);
+    letter-spacing: 4px;
+    margin-bottom: 14px;
+    color: #ffd319;
+}
+
+/*NÃO É SÓ UM JOGO*/
+h1 {
+      font-family: "Anton", system-ui;
+    font-style: normal;
+    font-weight: 400;        /* a Anton já é pesada, não precisa de negrito */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    font-size: clamp(48px, 5vw, 78px);
+    color: #ffffff;
+}
+
+.texto-apoio {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 8px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+
+/* MENU DAS BOLINHAS */
+.menu {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px; /* espaço entre as bolinhas */
+    z-index: 3;
+    pointer-events: none; /* a faixa inteira não bloqueia cliques... */
+}
+
+.menu > * {
+    pointer-events: auto; /* só as bolinhas recebem clique */
+}
+
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.avatar,
+.voce {
+    position: relative; /* */
+    width: var(--tamanho-bolinha);
+    height: var(--tamanho-bolinha);
+    border-radius: 50%; /* 50% = círculo perfeito */
+    cursor: pointer;    
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.avatar {
+    border: 2px solid #ffffff;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;     
+    object-position: top;  
+    display: block;
+}
+
+.voce {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    background-color: #ffd319;
+}
+
+/* input da selfie: invisível, mas continua acessível pelo teclado */
+.escondido {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* EFEITO AO PASSAR O MOUSE */
+.avatar:hover,
+.avatar:focus-visible,
+.voce:hover,
+.voce:focus-within {
+    transform: translateY(-6px) scale(1.15);
+    box-shadow: 0 0 22px var(--cor);
+    outline: none;
+}
+
+/* EFEITO DE "APERTAR" AO CLICAR*/
+.avatar:active,
+.voce:active {
+    transform: scale(0.95);
+}
+
+/* BOLINHA SELECIONADA COM ANEL COLORIDO*/
+.avatar.ativo,
+.voce.ativo {
+    border-color: var(--cor);
+    box-shadow: 0 0 0 3px var(--cor), 0 0 24px var(--cor);
+    transform: scale(1.15);
+}
+
+/* BALÃOZINHO COM O NOME */
+.avatar::after,
+.voce::after {
+    content: attr(data-nome);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    padding: 4px 12px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    font-family: var(--fonte-titulo);
+    font-size: 16px;
+    white-space: nowrap; /* não quebra o texto em duas linhas */
+    opacity: 0;          /* invisível até passar o mouse */
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.avatar:hover::after,
+.avatar:focus-visible::after,
+.voce:hover::after,
+.voce:focus-within::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/*CAMERA PULSANDO ATÉ GERAR A FOTO*/
+.voce.carregando {
+    animation: pulsar 0.9s ease-in-out infinite;
+    cursor: wait; /* cursor de "aguarde" */
+}
+
+
+/* AVISO DE ERRO */
+.aviso {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: #ffd319;
+    color: #000000;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.aviso.mostrar {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+ .nota {
+        position:absolute;
+        bottom: 40px;
+        right: 70px;
+        max-width: 32vw;
+        text-wrap:balance;
+        text-align: right;
+        font-size: 15px;
+        color: #ffffff;
+        opacity: 0.85;
+        text-shadow:0 2px 8px rgba(0, 0, 0, 0.6);
+        z-index: 3;
+    }
+
+/* ANIMAÇÕES  */
+@keyframes personagem-entra {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes nome-entra {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes pulsar {
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 28px #ffd319;
+    }
+}
+
+
+
+/* TELAS PEQUENAS  */
+@media (max-width: 700px) {
+
+    .nome {
+        top: 6vh;
+    }
+
+    .personagem {
+        height: 60vh;
+    }
+
+    .textos {
+        left: 20px;
+        bottom: 150px;
+    }
+
+    .menu {
+        bottom: 24px;
+        gap: 14px;
+    }
+
+    .nota {
+        left: 20px;
+        right: 20px;
+        bottom: 90px;
+        max-width: none;
+        text-align: center;
+    }
+}
